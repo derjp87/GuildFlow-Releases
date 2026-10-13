@@ -21,22 +21,6 @@
 
 ---
 
-## CurseForge addon updates (GitHub Releases → CurseForge)
-
-**GitHub Releases in this public repository are the only upload trigger for CurseForge.** The private development repository does **not** publish files directly to CurseForge.
-
-The workflow [`Publish GuildFlow to CurseForge`](.github/workflows/publish-curseforge.yml) runs when a **new release is published here**, or manually via **Actions → Publish GuildFlow to CurseForge → Run workflow** for an existing release tag. It fetches the **exact same `GuildFlow.zip`** and `SHA256SUMS` assets from that release, validates the checksum, version and required three addon folders, then submits **the original ZIP unchanged** to CurseForge **project 1742845** for **WoW Forever 1.60.1**.
-
-- **One-time setup:** Repository owner → **Settings → Secrets and variables → Actions → New repository secret** → name **`CF_API_TOKEN`**; value is your **CurseForge author upload API token**. The token must never appear in the repo, issue, screenshot, release body or chat. The workflow shows a notice and does **not** upload while the secret is missing.
-- **Current publishing mode:** uploads are **Beta** and configured to become available **automatically after CurseForge approves the file**. The project can separately remain **Unlisted** until you're ready to launch. Switch the metadata to **release** deliberately when stable and tested.
-- **First/catch-up test:** the workflow did not exist when `v0.18.7` was published, so *after the secret has been added*, you can start it manually for `v0.18.7` **if this version is not already on CurseForge**. **Do not rerun successful uploads**; the API creates a new file each time.
-- **Version compatibility:** the upload uses `gameVersionNames: ["1.60.1"]`; ZIP validation requires `## Interface: 16001`. Verify the first upload is correctly classified as **WoW Forever** in CurseForge.
-- **Status:** workflow is installed, but there has been **no authenticated test upload yet**. Approval, token permissions and final file visibility must be checked.
-
-CurseForge page: [GuildFlow](https://www.curseforge.com/wow/addons/guildflow) · [Author preview](https://www.curseforge.com/wow/addons/guildflow/preview). The Windows `GuildFlowSync-Setup.exe` stays **only on GitHub**, not in the CurseForge addon ZIP.
-
----
-
 ## Was ist GuildFlow?
 
 **GuildFlow** ist ein Gilden-Addon für *World of Warcraft: Forever*: Events und Raids mit Anmeldungen, Beute und
@@ -80,40 +64,53 @@ eurer Gilde ab, damit Events, Anmeldungen und Profile auch dann ankommen, wenn i
 </p>
 <p align="center"><sub>Alle Bilder zeigen eine erfundene Testgilde.</sub></p>
 
-## Installation in vier Schritten
+## Welche Installation passt zu dir?
 
-**Du brauchst:** Windows 10 oder 11, World of Warcraft: Forever und – für den Offline-Abgleich – den Discord-Server
-deiner Gilde.
+| Du möchtest … | So geht's |
+| --- | --- |
+| **Nur das WoW-Addon** | [GuildFlow auf CurseForge](https://www.curseforge.com/wow/addons/guildflow) installieren oder die [Addon-ZIP](https://github.com/derjp87/GuildFlow-Releases/releases/latest/download/GuildFlow.zip) verwenden. Keine Windows-App, kein Discord-Konto erforderlich. |
+| **Addon + automatischen Offline-Abgleich + erweiterte Statistiken (Windows)** | [GuildFlowSync-Setup.exe](https://github.com/derjp87/GuildFlow-Releases/releases/latest/download/GuildFlowSync-Setup.exe) installieren. Das Setup enthält **Programm und Addon inklusive der zwei Bridge-Addons**. |
+| **Addon auf macOS/Linux** | Die [Addon-ZIP](https://github.com/derjp87/GuildFlow-Releases/releases/latest/download/GuildFlow.zip) manuell installieren; das Windows-Sync-Programm läuft dort nicht. |
 
-1. **Herunterladen und starten:**
-   [GuildFlowSync-Setup.exe](https://github.com/derjp87/GuildFlow-Releases/releases/latest/download/GuildFlowSync-Setup.exe).
-   Das Setup braucht keine Administratorrechte. Windows warnt beim ersten Mal, weil das Setup noch nicht digital
-   signiert ist: **„Weitere Informationen“ → „Trotzdem ausführen“**.
-2. **Addon:** Der Assistent zeigt deine WoW-Versionen und installiert oder aktualisiert GuildFlow. Ein vorhandenes
-   Addon wird vorher gesichert.
-3. **Im Spiel:** Einloggen, ein paar Sekunden warten und `/reload` eingeben. War das Addon neu, starte WoW einmal
-   ganz neu. Der Assistent erkennt deinen Charakter von selbst.
-4. **Gilde:**
-   - **Beitreten** – wenn deine Gilde GuildFlow Sync schon nutzt: Du schickst eine Anfrage, ein Offizier erlaubt sie
-     im Spiel (oder lässt Anfragen automatisch erlauben), und du fügst den Einladungslink aus dem Discord-Kanal ein.
-   - **Einrichten** – für Gildenleitung und Offiziere: zwei Discord-Webhooks anlegen (Sync-Kanal und lesbarer
-     Kanal), der Assistent erklärt jeden Schritt.
+**Wichtig:** GuildFlow und GuildFlow Sync sind zwei verschiedene Komponenten. Der CurseForge-Download installiert **nicht** automatisch die Windows-App. Wenn sowohl CurseForge als auch GuildFlow Sync dein Addon aktualisieren, können die Update-Systeme einander überschreiben. Achte auf die installierte Version und vermeide parallele Addon-Updates durch beide Programme, bis eine automatische Erkennung der Installationsverwaltung verfügbar ist.
+
+## Für Gildenmitglieder: GuildFlow Sync einrichten (Windows)
+
+1. **WoW vollständig schließen**, dann [GuildFlowSync-Setup.exe](https://github.com/derjp87/GuildFlow-Releases/releases/latest/download/GuildFlowSync-Setup.exe) vom offiziellen Release herunterladen. Das Setup installiert ohne Administratorrechte. Bei einer SmartScreen-Warnung zunächst **Herkunft und Prüfsumme** anhand von `SHA256SUMS` im Release prüfen; das Setup ist bislang nicht Authenticode-codesigniert.
+2. **WoW-Ordner auswählen**, falls er nicht automatisch gefunden wird. Das Setup installiert/aktualisiert GuildFlow und die beiden Bridge-Addons `GuildFlow_Bridge1` und `GuildFlow_Bridge2`; vorhandene Addon-Dateien werden gesichert. **SavedVariables und deine Gildendaten bleiben erhalten.**
+3. **WoW neu starten** (nach einer erstmaligen Addon-Installation reicht `/reload` nicht), mit deinem **Gildencharakter** einloggen und GuildFlow aktiviert lassen. Falls nötig einmal `/reload`, damit der aktuelle Stand gespeichert wird.
+4. **Normalerweise fertig:** Mit der standardmäßig aktivierten Option **„Gilden automatisch verbinden“** erkennt GuildFlow Sync eine Gilde, die bereits einen GuildFlow-Sync-Abgleich betreibt, und stellt den Beitritt nach einer gültigen Gildenfreigabe automatisch her. **Kein Webhook, kein Einladungslink und kein Discord-Konto für normale Mitglieder nötig.** Das kann über mehrere `/reload`-Vorgänge bzw. Spielsitzungen dauern: Ein GuildFlow-Sync-Nutzer muss als solcher erkannt worden sein, und ein berechtigter Offizier muss die Anfrage genehmigen (oder seine Auto-Freigabe aktiviert haben).
+5. **Prüfen:** Öffne das **GuildFlow Sync**-Fenster oder das goldene **GF-Symbol neben der Windows-Uhr**. Dort siehst du Gilde, Verbindungsstatus und Hintergrund-Abgleich. **„Wartet auf Freigabe“** ist noch keine erfolgreiche Verbindung.
+
+**Schnellerer Notweg:** In GuildFlow Sync gibt es unter **Erweitert → + Gilde / Einer Gilde beitreten** den Assistenten. Wenn die Gildenleitung in Discord Einladungslinks veröffentlicht, kannst du den für *deine* Anfrage bestimmten `GFJOIN3`-Link im Programm über **„Einladungslink einfügen“** übernehmen. Alternativ kann ein Offizier einen **Beitrittscode** beantworten. Für die normale Nutzung ist das nicht erforderlich.
 
 <p align="center">
-  <img src="assets/screens/wizard-de.png" alt="Der Einrichtungsassistent" width="60%">
+  <img src="assets/screens/wizard-de.png" alt="GuildFlow Sync: optionaler Einrichtungsassistent" width="60%">
 </p>
 
-### Nur das Addon
+## Für Gildenleitung & Offiziere: Discord einmalig einrichten
 
-Ohne Windows-Programm (z. B. auf dem Mac): [GuildFlow.zip](https://github.com/derjp87/GuildFlow-Releases/releases/latest/download/GuildFlow.zip)
-herunterladen und den Ordner `GuildFlow` nach `Interface\AddOns` deiner WoW-Version entpacken. WoW neu starten,
-dann `/gf` oder der Reiter **GuildFlow** im Gildenfenster (J).
+**Nur eine berechtigte Person pro Gilde richtet den Sync erstmals ein.** Voraussetzung: GuildFlow **und** GuildFlow Sync laufen auf deren Windows-PC; im Discord-Server sind die Rechte **„Webhooks verwalten“ / „Manage Webhooks“** für die benötigten Kanäle erforderlich.
 
-## Updates
+1. **Auf dem Discord-Server der Gilde zwei Textkanäle anlegen** (Namen nur Beispiele):
+   - **`#guildflow-sync` (Pflicht):** Technischer Datenaustausch. **Privat halten**, nur berechtigte Personen sollen die synchronisierten Nachrichten/Dateien sehen oder bearbeiten können; **nichts manuell löschen oder dort chatten**.
+   - **`#guildflow-news` (optional):** Für Mitglieder lesbare Beiträge zu Events, Anmeldungen und Raid-Ergebnissen. Ein eigener Kanal mit **eigenem Webhook**.
+   - **Optional `#guildflow-invites`:** Nur für Beitrittslinks, falls diese nicht in `#guildflow-news` stehen sollen (dritter, eigener Webhook). **Beitrittslinks posten** lässt sich auch deaktivieren.
+2. **Für jeden genutzten Kanal einen Webhook erzeugen:** In Discord den jeweiligen Kanal unter **Kanal bearbeiten → Integrationen → Webhooks → Neuer Webhook → Webhook-URL kopieren** öffnen. Jeder Kanal benötigt seinen passenden Webhook. **Webhook-URLs sind geheime Schreib-Zugangsdaten**, nicht im Discord-Chat, in Bildern oder auf GitHub teilen.
+3. **Im Spiel mit einem Gildenmeister-/Offizierscharakter:** GuildFlow öffnen → **Einstellungen → GuildFlow Sync**. Dort den **Sync-Webhook (Pflicht)**, den optionalen **Webhook für lesbare Beiträge** sowie gegebenenfalls den optionalen **Einladungskanal-Webhook** eingeben. Einstellung **„Einladungslinks posten“** wie gewünscht wählen, anschließend **„Speichern und neu laden“**.
+4. **Übernahme abwarten:** GuildFlow Sync auf diesem PC muss im Hintergrund laufen. Nach kurzer Wartezeit nochmals **`/reload`** ausführen und im Spiel auf **„Verbunden (eingerichtet von …)“** sowie im Windows-Programm auf eine verbundene Gilde prüfen. Die Webhooks werden nach erfolgreicher Verarbeitung aus den Spieldaten entfernt.
+5. **Mitglieder zulassen:** Neue GuildFlow-Sync-Mitglieder fragen normalerweise automatisch über das Spiel an. Unter **Einstellungen → GuildFlow Sync** ist **„Anfragen von Gildenmitgliedern automatisch erlauben“** standardmäßig aktiv; das gilt nur nach Prüfung der Gildenmitgliedschaft und mit einem berechtigten, verbundenen Offiziers-PC. Bei deaktivierter Auto-Freigabe im Spiel die Nachfrage **„Erlauben?“** bestätigen und `/reload` verwenden. Mitglieder müssen weder den Discord-Server betreten noch Battle.net mit Discord verknüpfen.
 
-GuildFlow Sync sucht alle paar Stunden nach einer neuen Version, solange WoW geschlossen ist, und beim Öffnen des
-Hauptfensters – unten rechts gibt es **„Nach Updates suchen“**. Installiert wird nur, was mit dem Release-Schlüssel
-von GuildFlow signiert ist und dessen Prüfsumme stimmt. Das Addon wird dabei mit aktualisiert.
+**So funktionieren die beiden Discord-Kanäle:** Im **Sync-Kanal** speichert GuildFlow Sync technische Gildenpostfächer für den Offline-Abgleich; er ist **nicht** zum Lesen oder Beschreiben durch Mitglieder gedacht. Im **Beitragskanal** erscheinen menschenlesbare Gildenbeiträge; ist dieser nicht eingerichtet, funktioniert der eigentliche Offline-Abgleich trotzdem. Einladungslinks können – je nach Einstellung – dort, in einem dritten Kanal oder gar nicht gepostet werden; der automatische Beitritt über das Spiel bleibt möglich.
+
+**Wichtig bei Mitgliederentfernung / Sicherheitsvorfall:** Einen PC aus GuildFlow Sync zu entfernen widerruft seinen zuvor bekannten Webhook **nicht**. Wenn der Zugriff entzogen werden soll, muss ein Offizier den Discord-Zugang über **„Neue Hooks verbinden“** beziehungsweise den vorgesehenen Rotationsweg ersetzen und danach den **alten Webhook in Discord löschen**. Bei mehreren PCs anschließend die Aktualisierung prüfen.
+
+## Im Alltag und bei Updates
+
+- Die Gildendaten werden nach dem Spielen bzw. bei gespeichertem Stand durch `/reload` mit Discord abgeglichen. Wenn WoW geschlossen ist, lädt GuildFlow Sync Änderungen anderer PCs in konfigurierbaren Abständen. Eingehende Daten stehen spätestens nach dem nächsten geeigneten Laden im Spiel bereit; ein sofortiger Live-Austausch über Discord ist nicht möglich.
+- GuildFlow Sync kann im Hintergrund laufen (GF-Symbol im Infobereich). Ein Klick auf **„Nach Updates suchen“** prüft Updates manuell; signierte automatische Programmupdates erfolgen nach der vorgesehenen Prüfung, wenn WoW geschlossen ist.
+- Falls du das Addon **über CurseForge** verwaltest, kontrolliere die Version nach einem GuildFlow-Sync-Update. Beide Programme könnten dieselben Addon-Dateien verändern.
+- Für das **reine WoW-Addon** ohne Windows-App: Die [GuildFlow.zip](https://github.com/derjp87/GuildFlow-Releases/releases/latest/download/GuildFlow.zip) enthält **drei Ordner** (`GuildFlow`, `GuildFlow_Bridge1`, `GuildFlow_Bridge2`). Entpacke sie **nebeneinander** nach `<WoW-Installation>/Interface/AddOns/`. Alternativ das Addon direkt mit CurseForge installieren. WoW nach der ersten Installation neu starten; öffnen über `/gf` oder den GuildFlow-Reiter im Gildenfenster (`J`).
 
 ## Gildenstatistik
 
@@ -128,91 +125,100 @@ auch während WoW läuft, und braucht keine Gildenverbindung.
 
 ## Sicherheit und Datenschutz
 
-- **Kein Server:** Das Addon nutzt Blizzards Addon-Nachrichten im Gildenkanal. Der Offline-Abgleich läuft
-  ausschließlich über den Discord-Kanal eurer Gilde.
-- **Zugangsdaten bleiben auf deinem PC:** Discord-Webhooks liegen verschlüsselt im Windows-Benutzerkonto (DPAPI).
-  Gib Webhook-Adressen, Einladungslinks und Dateien aus `%LOCALAPPDATA%\GuildFlowSync` nie weiter.
-- **Privates bleibt privat:** Tickets und Notizen zu Probemitgliedern gehen nur per direkter Flüsternachricht an die
-  Berechtigten und nie über Discord.
-- **Geprüfte Updates:** Jede Version ist signiert (Ed25519). Selbst prüfen kannst du die Prüfsumme in PowerShell mit
-  `Get-FileHash .\GuildFlowSync-Setup.exe` und mit `SHA256SUMS` im Release vergleichen.
+- **Kein zusätzlicher Heimserver / Discord-Bot nötig:** Das WoW-Addon nutzt WoW-Addon-Nachrichten. Die **optionale** Windows-App nutzt Discord-Webhooks und Gildenpostfächer – die Gilde benötigt dafür ihren eigenen Discord-Server. Mitglieder brauchen dafür **kein persönliches Discord-Konto**.
+- **Technischer Sync-Kanal schützen:** Daten im Discord-Postfach sind **nicht Ende-zu-Ende-verschlüsselt**. Discord-Webhook-URLs erlauben weitreichende Aktionen und werden auf dem PC mit Windows-DPAPI geschützt gespeichert; die URLs niemals weitergeben oder veröffentlichen. Offenlegen oder Verlust eines PCs kann **Webhook-Rotation** erfordern.
+- **Private Inhalte:** Private Tickets und vertrauliche Probezeit-/Offiziersnotizen werden **nicht** über das Discord-Postfach ausgetauscht. Das Windows-Statistikfenster wertet lokale WoW-Daten aus.
+- **Installationsdateien:** Das Setup ist noch nicht mit einer Windows-Authenticode-Herausgebersignatur versehen. Release-Manifeste nutzen Ed25519-Prüfung für automatische Updates. Die SHA-256-Prüfsummen stehen in **`SHA256SUMS`** beim offiziellen Release. Prüfe Herkunft und Prüfsumme bei Browser-/SmartScreen-/Antivirenwarnungen und melde unerwartete Funde, statt Schutzfunktionen pauschal auszuschalten.
 
-## Häufige Fragen
+## Häufige Fragen / Troubleshooting
 
 <details>
-<summary><b>Windows oder der Virenscanner warnt vor dem Setup</b></summary>
+<summary><b>GuildFlow erscheint nicht im Spiel</b></summary>
 
-Das Setup ist noch nicht digital signiert (Code-Signing), daher kennt Windows SmartScreen den Herausgeber nicht:
-„Weitere Informationen“ → „Trotzdem ausführen“. Programme, die mit PyInstaller gebaut sind, werden von manchen
-Virenscannern fälschlich gemeldet. Prüfe im Zweifel die Prüfsumme (siehe oben).
+WoW nach einer neuen Addon-Installation **vollständig beenden und neu starten**. Prüfe, ob `Interface/AddOns/GuildFlow/GuildFlow.toc` existiert und GuildFlow im Addon-Menü aktiviert ist. Bei der Windows-Komplettinstallation außerdem `GuildFlow_Bridge1` und `GuildFlow_Bridge2` prüfen. `/reload` genügt nur für bereits geladene Addons.
 </details>
 
 <details>
-<summary><b>Das Addon erscheint im Spiel nicht</b></summary>
+<summary><b>GuildFlow Sync zeigt „Wartet auf Freigabe“ oder erkennt keine Gilde</b></summary>
 
-Nach einer Neuinstallation WoW einmal komplett beenden und neu starten – `/reload` reicht dafür nicht. Der Ordner
-muss genau `Interface\AddOns\GuildFlow` heißen. In der Addon-Liste im Charakterauswahl-Bildschirm muss GuildFlow
-aktiviert sein.
+Mit einem **echten Gildencharakter** in der passenden WoW-Installation anmelden, das Addon laden und `/reload` ausführen. Im Windows-Programm **„Gilden automatisch verbinden“** und **Hintergrund-Abgleich** prüfen. Mindestens ein berechtigter GuildFlow-Sync-Offizier muss erreichbar sein bzw. über die Weiterleitung erreicht werden; dessen Freigabe und ein weiterer `/reload`/Spielstart können erforderlich sein. Das Mitglied benötigt **keinen Discord-Webhook**. Wenn es dennoch klemmt: im Programm **Erweitert → + Gilde → Einer Gilde beitreten**, gegebenenfalls den **GFJOIN3**-Link einfügen. Keine Webhooks oder privaten Dateien im Supportchat posten.
 </details>
 
 <details>
-<summary><b>„World of Warcraft läuft“ – warum soll ich WoW schließen?</b></summary>
+<summary><b>Die Discord-Beiträge fehlen / ich sehe keine Einladungslinks</b></summary>
 
-WoW überschreibt seine Speicherdateien beim Beenden. Deshalb ändert GuildFlow Sync sie nur, wenn WoW geschlossen
-ist. Hochladen klappt auch während des Spielens: Nach jedem `/reload` geht der aktuelle Stand raus.
+Der **Sync-Kanal** enthält nur technische Daten; normale Beiträge brauchen einen **separaten lesbaren Kanal samt Webhook**. Einladungslinks sind optional und können deaktiviert oder in einen dritten Kanal verschoben sein. Ob Mitglieder selbst Zugang zu diesen Kanälen haben, entscheidet die Discord-Gildenleitung; **für den automatischen In-Game-Beitritt ist kein Discord-Zugang erforderlich**.
 </details>
 
 <details>
-<summary><b>Ich spiele mehrere Charaktere in verschiedenen Gilden</b></summary>
+<summary><b>Der Hintergrund-Abgleich ist gestoppt / es erscheinen keine neuen Daten</b></summary>
 
-Kein Problem: Jede Gilde bekommt ein eigenes Profil, ein Hintergrund-Abgleich kümmert sich um alle Gilden einer
-WoW-Installation.
+GuildFlow Sync öffnen, Verbindungs- und Hintergrundstatus prüfen und gegebenenfalls den Abgleich über das Programm erneut starten. Programmversion und Addonversion vergleichen und den letzten Abgleich ansehen. Änderungen in WoW werden erst beim gespeicherten Spielstand (Logout/`/reload`) für das Programm sichtbar; ein Offline-Download wird erst beim geeigneten nächsten Laden ins Spiel eingespielt. Falls der Prozess sofort wieder stoppt, ein **geheimnisfreies** Protokoll aus dem Programm an die Entwickler geben – niemals Webhooks, Einladungsschlüssel oder komplette SavedVariables mitsenden.
 </details>
 
 <details>
-<summary><b>Wie entferne ich GuildFlow wieder?</b></summary>
+<summary><b>Windows oder der Browser warnt beim Download</b></summary>
 
-Windows-Einstellungen → Apps → **GuildFlow Sync** deinstallieren. Das Addon entfernst du, indem du den Ordner
-`Interface\AddOns\GuildFlow` löschst.
+Das Windows-Setup ist noch nicht mit Authenticode signiert; dadurch sind Warnungen möglich. Lade nur aus diesem offiziellen Release-Repository. Vergleiche die SHA-256-Prüfsumme mit `SHA256SUMS` (z. B. PowerShell: `Get-FileHash .\\GuildFlowSync-Setup.exe -Algorithm SHA256`). Bei einem blockierten Download oder Virenscannerfund erst überprüfen und nachfragen, nicht pauschal den Schutz deaktivieren.
+</details>
+
+<details>
+<summary><b>Warum darf GuildFlow Sync während WoW läuft manches nicht schreiben?</b></summary>
+
+WoW schreibt die gespeicherten Addon-Daten selbst beim Logout/`/reload`. Deshalb überschreibt GuildFlow Sync die Datei `GuildFlow.lua` nicht während WoW läuft. Die beiden optionalen Bridge-Addons ermöglichen ausgewählte Antworten auch während einer laufenden Spielsitzung.
+</details>
+
+<details>
+<summary><b>Ich habe mehrere Charaktere oder Gilden</b></summary>
+
+GuildFlow Sync kann mehrere WoW-Installationen und Gilden getrennt verwalten; ein Twink derselben Gilde braucht normalerweise keine zweite Verbindung. Im Fenster die richtige Gilde und den entsprechenden Charakterstatus kontrollieren.
+</details>
+
+<details>
+<summary><b>Wie entferne ich GuildFlow?</b></summary>
+
+In Windows die App **GuildFlow Sync** deinstallieren. Das WoW-Addon kannst du in CurseForge oder durch Entfernen der drei Addon-Ordner deinstallieren. Dabei bleiben deine WoW-SavedVariables und die verschlüsselte lokale GuildFlow-Sync-Konfiguration möglicherweise erhalten; sie nicht unbedacht mitsamt anderen WoW-Daten löschen.
 </details>
 
 ---
 
 <a id="english"></a>
 
-## English
+## English – Installation & Discord setup
 
-**GuildFlow** is a guild addon for *World of Warcraft: Forever* – calendar and raids with sign-ups by role and
-specialization, soft reserves and a loot council, professions, guild projects and statistics, right in the game.
-**GuildFlow Sync** is the optional Windows program: it syncs the guild through your guild's Discord channel (so
-events, sign-ups and profiles arrive even if you are never online at the same time), writes readable Discord posts,
-shows detailed guild statistics and keeps itself and the addon up to date. Both speak 12 languages.
+**GuildFlow** is a standalone guild addon for *World of Warcraft: Forever*: events, raids, raid/loot management, professions, projects and statistics. **GuildFlow Sync** is a **free, optional Windows companion** with Discord-based offline synchronization and extended statistics. The addon works without the Windows app or a Discord account.
 
 <p align="center">
-  <img src="assets/screens/main-en.png" alt="GuildFlow Sync main window" width="49%">
-  <img src="assets/screens/stats-overview-en.png" alt="Guild statistics" width="49%">
+  <img src="assets/screens/main-en.png" alt="GuildFlow Sync Windows companion" width="49%">
+  <img src="assets/screens/stats-overview-en.png" alt="Extended statistics" width="49%">
 </p>
 
-**Install:** download
-[GuildFlowSync-Setup.exe](https://github.com/derjp87/GuildFlow-Releases/releases/latest/download/GuildFlowSync-Setup.exe)
-(Windows 10/11, no admin rights needed). SmartScreen warns because the setup is not code-signed yet: "More info" →
-"Run anyway". The setup wizard installs the addon, asks you to log in and `/reload`, then lets you **join** your
-guild (an officer allows the request in game, you paste the invite link from Discord) or **set it up** (officers:
-two Discord webhooks).
+### For players
 
-**Addon only:** unzip [GuildFlow.zip](https://github.com/derjp87/GuildFlow-Releases/releases/latest/download/GuildFlow.zip)
-into `Interface\AddOns` and restart WoW; open it with `/gf`.
+1. **Addon only:** install [GuildFlow on CurseForge](https://www.curseforge.com/wow/addons/guildflow), or use [GuildFlow.zip](https://github.com/derjp87/GuildFlow-Releases/releases/latest/download/GuildFlow.zip). The ZIP contains three side-by-side folders (`GuildFlow`, `GuildFlow_Bridge1`, `GuildFlow_Bridge2`) for your `Interface/AddOns` directory.
+2. **Optional Windows offline sync:** close WoW, download the official [GuildFlowSync-Setup.exe](https://github.com/derjp87/GuildFlow-Releases/releases/latest/download/GuildFlowSync-Setup.exe), and install. It includes the addon and bridges. Select your WoW folder if needed, then restart WoW completely (not just `/reload` after first-time installation).
+3. Log in on a **guild character**. With **Automatically connect guilds** enabled (the default), GuildFlow Sync should request access automatically after your addon has discovered someone using the guild's existing Sync setup. A guild officer must approve (or have eligible auto-approval enabled). You normally **do not** need a Discord login, webhook, invite code or manual wizard. It may take a `/reload`, another game session, or time for the officer's approval.
+4. Check the Windows **GuildFlow Sync** window or the gold **GF tray icon**. **Waiting for approval** does not mean Connected. If needed, use **Advanced → + Guild → Join a guild** and paste the request-specific `GFJOIN3` link provided by your officers as a fallback.
 
-**Updates** are automatic while WoW is closed, signed (Ed25519) and checksum-verified; "Check for updates" is at the
-bottom right of the main window.
+### For guild leaders & officers (one-time Discord setup)
 
-**Privacy:** no server – addon messages in the guild channel and your guild's Discord channel only. Discord webhooks
-stay encrypted in your Windows account (DPAPI); never share webhook addresses, invite links or files from
-`%LOCALAPPDATA%\GuildFlowSync`.
+1. Create a **private technical sync text channel** on your guild's Discord server (e.g. `#guildflow-sync`). Optionally create a **separate readable posts channel** (e.g. `#guildflow-news`) for event/signup/raid summaries, and optionally a third channel for invitation links. Do not let ordinary members edit or delete technical postbox messages.
+2. With **Manage Webhooks** permission, create a **separate webhook per channel**: **Edit Channel → Integrations → Webhooks → New Webhook → Copy Webhook URL**. Treat URLs like passwords: never publish them or paste them in chats/screenshots.
+3. Install the **Windows companion + addon** on the officer's PC, sign into WoW on the guild officer character and open **GuildFlow → Settings → GuildFlow Sync** in-game. Enter the **required sync webhook**, optional **readable-posts webhook**, and optional invite channel webhook; configure invite-link posting. Choose **Save and reload**.
+4. Keep GuildFlow Sync running in Windows; after a short wait, issue another `/reload` to collect the confirmation. Confirm **Connected** in game and in the Windows program.
+5. Member requests are normally sent automatically. **Automatically approve guild-member requests** is enabled by default, but still verifies membership and requires an eligible authorized officer setup. If disabled, approve the request in-game and `/reload`. **Regular members do not need Discord access, a Discord/Battle.net link, or any webhook.**
+
+The technical sync channel is **not** the chat bridge; it stores GuildFlow's offline data. Readable posts are optional and require their own webhook. When someone leaves, simply removing their local GuildFlow Sync connection does **not** revoke a shared webhook: rotate guild Discord access using the in-game **Replace / reconnect hooks** function and delete the old webhook in Discord after the replacement is distributed.
+
+### Updates, safety & help
+
+GuildFlow Sync can update itself and the installed addon. If CurseForge also manages the addon, check for **conflicting addon updates**; the two systems are not yet integrated. A first install requires a full WoW restart. Subsequent data updates may require `/reload`, logging out or another login. The installer is not yet Windows Authenticode-signed; verify downloads against `SHA256SUMS` from this official repository before choosing to run a warned installer.
+
+Discord webhook URLs are sensitive write credentials. The Windows application encrypts them locally with DPAPI, but the shared Discord postbox is **not end-to-end encrypted**. Private tickets and confidential officer/trial notes are **not** sent to Discord. Never include webhooks, access codes, complete SavedVariables, or local configuration secrets in reports.
+
+If you need help, check whether the **addon and both bridge addons** are enabled, your **guild character** was actually logged in, auto-connect and background sync are active, and an **officer** can approve access. The manual **Join a guild** wizard and request-specific invite link are fallbacks. Keep any diagnostic screenshots and logs secret-free.
 
 ---
 
-<p align="center"><sub>
-  <a href="https://github.com/derjp87/GuildFlow-Releases/releases">Alle Versionen und Änderungen · All versions and changes</a>
-  · Screenshots zeigen eine erfundene Testgilde · Screenshots show a fictional test guild
-</sub></p>
+**For maintainers / Für Entwickler:** [CurseForge upload automation](docs/CURSEFORGE_RELEASE_AUTOMATION.md) · [All versions & release notes](https://github.com/derjp87/GuildFlow-Releases/releases).
+
