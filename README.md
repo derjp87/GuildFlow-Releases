@@ -41,7 +41,8 @@ eurer Gilde ab, damit Events, Anmeldungen und Profile auch dann ankommen, wenn i
         <li>Raidaufstellung mit Buff-Übersicht, Boss-Kills und Raidfortschritt</li>
         <li>Soft-Reserves mit Prioritäten und ein Lootcouncil mit Wunschlisten</li>
         <li>Spezialisierungen aus den Talenten (auch Dualspec), Talente jedes Mitglieds im Profil</li>
-        <li>„Wer kann das herstellen?“, Gildenprojekte, Fortschritt, Tickets an die Gildenleitung</li>
+        <li>Berufe & Crafting: Rezepte finden, Gildenaufträge mit Materialplan erstellen und übernehmen, Handwerker-Twinks berücksichtigen, mögliche Ausrüstungs-Upgrades entdecken</li>
+        <li>Gildenprojekte, Fortschritt, Tickets an die Gildenleitung</li>
         <li>Gildenstatistik direkt im Spiel</li>
       </ul>
     </td>
@@ -63,6 +64,17 @@ eurer Gilde ab, damit Events, Anmeldungen und Profile auch dann ankommen, wenn i
   <img src="assets/screens/stats-overview-de.png" alt="Die Gildenstatistik" width="49%">
 </p>
 <p align="center"><sub>Alle Bilder zeigen eine erfundene Testgilde.</sub></p>
+
+## Neu: Gildenaufträge & mögliche Upgrades (ab 0.18.11)
+
+**Handwerk innerhalb der Gilde koordinieren:** Unter **Berufe & Crafting** zeigt GuildFlow, welche Gildenmitglieder ein Rezept kennen. Wähle ein Rezept, klicke **„Rezept planen“** und erstelle einen **Gildenauftrag** mit gewünschter Anzahl und Materialzuständigkeit (Auftraggeber, Handwerker oder gemeinsame Absprache). Jeder passende Gildenhandwerker kann sich melden; die Zuteilung wird vom Auftraggeber-Charakter bestätigt, sobald dieser die Zusage online empfängt.
+
+- **Neue Aufträge nicht verpassen:** Ein Handwerkssymbol an der **Minimap** zeigt mit einer Zahl neue Aufträge an, die du herstellen kannst. Die Kachel **„Aufträge für dich“** auf der Übersicht und eine dauerhafte Anzahl im GuildFlow-Menü zeigen passende offene Aufträge an, auch nachdem du die Minimap-Meldung gelesen hast. Kein aufdringliches Popup und kein Benachrichtigungston.
+- **Handwerker-Twinks:** Wenn eigene Charaktere in GuildFlow **gegenseitig bestätigt verknüpft** sind, kannst du auch dann passende Aufträge sehen und die Herstellung anbieten, wenn das Rezept von einem anderen deiner verknüpften Charaktere beherrscht wird. GuildFlow merkt sich den tatsächlichen Rezeptbesitzer.
+- **Aufträge und Materialien:** Im Auftrag werden – soweit der WoW-Client die Rezeptdaten bereitstellt – benötigte Zutaten, Gesamtmengen und die Materialzuständigkeit angezeigt. Der Status führt den zugeteilten Handwerker auf. Nach dem Herstellen markiert der Handwerker den Auftrag als gefertigt; der Auftraggeber bestätigt nach der Übergabe den Abschluss. Handel und Post bleiben im Spiel.
+- **Ausrüstungsverbesserungen:** Die Kachel **„Upgrades für dich“** zeigt mögliche von Gildenmitgliedern herstellbare Rüstung und Schmuckstücke, **ausschließlich für deinen derzeit eingeloggten Charakter**, niemals für offline gespielte Twinks. Item-Tooltips zeigen die Werte; bei der Handwerkeranzahl werden Namen und Online-Status eingeblendet. Vor dem Erstellen eines Auftrags öffnet sich der Materialplaner.
+
+**Noch in der Erprobung:** Die Upgrade-Vorschläge berücksichtigen bisher vor allem Gegenstandsstufe und grundlegende Eignung, nicht vollständig Klasse/Spezialisierung oder optimale Werte. Waffen und Verzauberungen sind noch nicht abgedeckt. Rezeptmaterialien können fehlen, wenn WoW sie nicht liefert. Die verknüpften Twink- und Offline-Szenarien benötigen weitere Praxistests. Das Addon arbeitet ohne Windows-App; für den optionalen, verzögerten Datenaustausch zwischen getrennten Spielsitzungen kann **GuildFlow Sync** verwendet werden.
 
 ## Welche Installation passt zu dir?
 
@@ -187,6 +199,17 @@ In Windows die App **GuildFlow Sync** deinstallieren. Das WoW-Addon kannst du in
 ## English – Installation & Discord setup
 
 **GuildFlow** is a standalone guild addon for *World of Warcraft: Forever*: events, raids, raid/loot management, professions, projects and statistics. **GuildFlow Sync** is a **free, optional Windows companion** with Discord-based offline synchronization and extended statistics. The addon works without the Windows app or a Discord account.
+
+### Guild crafting orders & possible upgrades (v0.18.11)
+
+In **Professions & Crafting**, find guild members who know a recipe, choose **Plan recipe**, and create a **guild crafting order** specifying quantity and who provides materials (requester, crafter, or arrange together). An eligible crafter offers to craft; the requester's character confirms one assigned crafter upon receiving the offer online. The crafter can mark the item crafted, and the requester confirms delivery.
+
+- **Minimap alerts:** A small crafting icon with an unread count shows newly available orders you can fulfill. The **Jobs you can craft** overview card and persistent Overview count show eligible open requests. No disruptive time-limited popup or sound.
+- **Linked crafting alts:** When your own characters are mutually verified and linked in GuildFlow, you can see and offer on jobs even while playing a different linked character; the recipe-owning alt is identified.
+- **Order details:** Where WoW supplies the recipe data, see required materials, quantities, supplier responsibility, assigned crafter and Blizzard item tooltips.
+- **Possible gear upgrades:** A second overview card lists selected guild-craftable armor and jewelry for **your currently logged-in character only**. Hover for item stats or crafter names and online status; inspect the material planner before submitting an order.
+
+**Beta limitations:** Suggestions use conservative item-level/basic equipment comparisons, not full class/spec optimization. Weapons and enchants are excluded. Recipe details may be unavailable; alt/offline scenarios still need live verification. GuildFlow Sync is optional and does not guarantee instant offline delivery.
 
 <p align="center">
   <img src="assets/screens/main-en.png" alt="GuildFlow Sync Windows companion" width="49%">
