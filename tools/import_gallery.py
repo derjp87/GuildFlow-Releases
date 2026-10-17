@@ -53,7 +53,7 @@ def git_blob_sha(content: bytes):
     return hashlib.sha1(b"blob " + str(len(content)).encode() + b"\0" + content).hexdigest()
 
 
-def upload(zip_path: Path, apply: bool):
+def upload(zip_path: Path, apply: bool, include_extras: bool = False):
     with ZipFile(zip_path) as z:
         manifest = json.loads(z.read("manifest.json"))
         paths = [x["file"] for x in manifest]
@@ -64,6 +64,8 @@ def upload(zip_path: Path, apply: bool):
             raise ValueError("Duplicate screenshot file names")
         for entry in manifest:
             name = entry["file"]
+            if name.startswith("extra-") and not include_extras:
+                continue
             if not re.fullmatch(r"(?:\d\d|extra)-[a-z0-9-]+\.png", name):
                 raise ValueError(f"Unsafe gallery file name: {name}")
             content = z.read(name)
@@ -99,8 +101,9 @@ def main():
     p = argparse.ArgumentParser(description=__doc__)
     p.add_argument("zip", type=Path)
     p.add_argument("--apply", action="store_true", help="Actually upload to GitHub")
+    p.add_argument("--include-extras", action="store_true", help="Also upload optional images, some show live guild metadata")
     args = p.parse_args()
-    upload(args.zip, args.apply)
+    upload(args.zip, args.apply, args.include_extras)
 
 
 if __name__ == "__main__":
