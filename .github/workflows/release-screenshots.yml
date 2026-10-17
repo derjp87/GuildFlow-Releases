@@ -70,3 +70,34 @@ jobs:
           MEDIA_ZIP: ${{ steps.gallery.outputs.zip }}
         run: |
           gh release upload "$RELEASE_TAG" "$MEDIA_ZIP" --repo "$GITHUB_REPOSITORY" --clobber
+
+      - name: Append gallery below GitHub Release notes
+        if: steps.gallery.outputs.found == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          GITHUB_REPOSITORY: ${{ github.repository }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          gh release view "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --json body --jq '.body' > /tmp/gallery-release-notes.md
+          if grep -q '<!-- guildflow-release-gallery:start -->' /tmp/gallery-release-notes.md; then
+            echo 'Release already contains its full gallery.'
+            exit 0
+          fi
+          VERSION="${RELEASE_TAG#v}"
+          {
+            printf '\n\n<!-- guildflow-release-gallery:start -->\n'
+            printf '## Screenshots / Bildergalerie\n\n'
+            printf 'Real WoW addon and Windows companion screenshots (12 images, max. 840px each).\n\n'
+            n=0
+            for screenshot in assets/screenshots/"$VERSION"/*.png; do
+              n=$((n+1))
+              label="$(basename "$screenshot" .png)"
+              printf '### %02d. %s\n\n' "$n" "$label"
+              printf '![%s](https://raw.githubusercontent.com/%s/main/%s)\n\n' "$label" "$GITHUB_REPOSITORY" "$screenshot"
+            done
+            printf '<!-- guildflow-release-gallery:end -->\n'
+          } >> /tmp/gallery-release-notes.md
+          gh release edit "$RELEASE_TAG" --repo "$GITHUB_REPOSITORY" --notes-file /tmp/gallery-release-notes.md
+
