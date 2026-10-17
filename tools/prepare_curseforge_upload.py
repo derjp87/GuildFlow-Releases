@@ -68,11 +68,19 @@ def main() -> None:
     notes = re.search(
         r"(?ms)^## What's new in GuildFlow[^\n]*\n(.*?)(?=^## |\Z)", body
     )
-    changelog = notes.group(1).strip() if notes else ""
-    # Release notes also include external GitHub download links, the Windows installer,
-    # and signature hashes. Never copy those into the CurseForge file changelog.
-    if not changelog:
-        changelog = "GuildFlow update for World of Warcraft: Forever."
+    # Do not silently publish a vague default text instead of a changelog.
+    # English release notes in the public GitHub Release are the source of truth.
+    if not notes or not re.search(
+        rf"(?m)^## What's new in GuildFlow v?{re.escape(version)}\\s*$", body
+    ):
+        raise SystemExit(
+            f"GitHub Release {tag} is missing the English What's new section; "
+            "CurseForge upload blocked to prevent an empty changelog."
+        )
+    changelog = notes.group(1).strip()
+    # Do not copy the Windows installer links / signatures / downloads section.
+    if len(changelog) < 40:
+        raise SystemExit(f"GitHub Release {tag} has an empty or too-short changelog")
     changelog = f"GuildFlow {version}\n\n{changelog[:5500]}"
 
     metadata = {
