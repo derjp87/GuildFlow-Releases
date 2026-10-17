@@ -77,7 +77,7 @@ def upload(zip_path: Path, apply: bool):
                 print(f"PREVIEW {target} ({width}x{height}; {len(content)} bytes)")
                 continue
             endpoint = f"repos/{REPO}/contents/{quote(target)}"
-            existing = run_gh([endpoint, "-f", f"ref={BRANCH}"], missing_ok=True)
+            existing = run_gh(["-X", "GET", endpoint, "-f", f"ref={BRANCH}"], missing_ok=True)
             sha = existing.get("sha") if existing else None
             if sha == git_blob_sha(content):
                 print(f"UNCHANGED {target}")
