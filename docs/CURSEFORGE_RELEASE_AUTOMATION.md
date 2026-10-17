@@ -21,3 +21,14 @@ CurseForge page: [GuildFlow](https://www.curseforge.com/wow/addons/guildflow) ·
 
 ---
 
+## Image gallery and public README for 0.18.15 (17 October 2026)
+
+The project owner wants **all twelve real screenshots** in the **CurseForge project gallery** and embedded **at the bottom** of this repository's public `README.md`. These include the real in-game equipment/3D view, raid/calendar and crafting, the normal GuildFlow Sync Windows client, Windows Armory and Windows statistics.
+
+- The image pack is provided to the project owner as `GuildFlow_0.18.15_Alle_12_CurseForge_840px.zip`. Each of the 12 PNG files is **at most 840 pixels wide**.
+- **One-time GitHub import required before the next release:** extract the pack and run `UPLOAD_GITHUB.cmd` (Python 3 plus authenticated GitHub CLI required). It retrieves the importer from `tools/import_gallery.py`, verifies all 12 images and hashes, commits all PNGs to `assets/screenshots/0.18.15/` and **only then** embeds them as Markdown images at the **end of public README.md**. It is repeat-safe for existing files. No individual browser uploads are needed.
+- **Current status:** public repository does not yet contain the binary PNGs; do not assume images are uploaded just because the importer exists. The Windows-side one-time import must complete.
+- **Automatic release attachment:** `.github/workflows/release-screenshots.yml` runs when a new public release is published and attaches a separate `GuildFlow-0.18.15-Screenshots.zip` containing all 12 versioned images, provided the GitHub import was completed first. No Addon release is created by the screenshot importer.
+- **CurseForge project gallery remains manual:** use the project's author dashboard to upload the twelve PNGs and replace outdated ones. The automated CurseForge **addon file + file changelog** upload does not update the project's images or long project description.
+- Review real Windows-client images for identifiable guild details before making all 12 screenshots public. Never publish Discord webhooks or access tokens.
+
