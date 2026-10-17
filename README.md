@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/derjp87/GuildFlow-Releases/releases/latest"><img alt="Neueste Version" src="https://img.shields.io/github/v/release/derjp87/GuildFlow-Releases?style=for-the-badge&label=Version&color=e5bc43&labelColor=242327"></a>
+  <a href="https://github.com/derjp87/GuildFlow-Releases/releases/latest"><img alt="Neueste Version" src="https://img.shields.io/github/v/release/derjp87/GuildFlow-Releases?style=for-the-badge&label=Version&color=e5bc43&labelColor=242327&cacheSeconds=300&revision=20261017-v0.18.15"></a>
   <img alt="Windows 10 und 11" src="https://img.shields.io/badge/Windows-10%20%7C%2011-e5bc43?style=for-the-badge&labelColor=242327">
   <img alt="World of Warcraft: Forever" src="https://img.shields.io/badge/WoW-Forever-e5bc43?style=for-the-badge&labelColor=242327">
   <img alt="12 Sprachen" src="https://img.shields.io/badge/Sprachen-12-e5bc43?style=for-the-badge&labelColor=242327">
