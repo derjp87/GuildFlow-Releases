@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Bundle the eight official screenshots and optional extras
+      - name: Bundle all twelve official gallery screenshots
         id: gallery
         env:
           RELEASE_TAG: ${{ github.event.release.tag_name }}
@@ -42,7 +42,9 @@ jobs:
           from struct import unpack
           folder, version = Path(sys.argv[1]), sys.argv[2]
           pictures = sorted(folder.glob("*.png"))
-          for index in range(1, 9):
+          if len(pictures) != 12:
+              raise SystemExit(f"Expected 12 versioned gallery PNGs, found {len(pictures)}")
+          for index in range(1, 13):
               if len([f for f in pictures if f.name.startswith(f"{index:02d}-")]) != 1:
                   raise SystemExit(f"Missing/duplicate screenshot {index:02d} in {folder}")
           for path in pictures:
