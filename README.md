@@ -194,6 +194,20 @@ In Windows die App **GuildFlow Sync** deinstallieren. Das WoW-Addon kannst du in
 
 ---
 
+## Neu in GuildFlow 0.18.15 – Überblick und Funktionen
+
+GuildFlow für **World of Warcraft: Forever** unterstützt die Gildenorganisation direkt im Spiel. Die überarbeitete Oberfläche fasst Mitglieder, Termine, aktuelle Aktivitäten und Gildenziele kompakt zusammen.
+
+**Mitglieder und Ausrüstung:** Profile mit Rollen, Berufen, Talenten und Ausrüstungsplätzen. Die Ausrüstungsansicht im Spiel zeigt ein drehbares 3D-Charaktermodell, soweit die WoW-Daten es zulassen. Bei entfernten Charakteren kann eine angenäherte Ansicht angezeigt werden.
+
+**Events, Raids und Beute:** Gildenkalender, Anmeldungen, Rollenplanung, Raidfortschritt, Lootcouncil, Soft Reserves und Gildenstatistiken.
+
+**Berufe und Gildenaufträge:** Rezepte finden, passende Handwerker kontaktieren und einzelne Gildenaufträge mit Menge und Materialverantwortung erstellen. Die persönliche Einkaufsliste fasst Materialien für eigene Herstellungen und Gildenaufträge, bei denen du Materialien stellst, zusammen. Geplante Rezepte bleiben als „Selbst herstellen“ oder „Ohne Auftrag“ gekennzeichnet; die Auswahl eines Eintrags veröffentlicht noch keinen Auftrag.
+
+**Optionaler Windows-Client GuildFlow Sync:** Offline-Datenabgleich zwischen Spielsitzungen, detaillierte Gildenstatistik und eine eigene 3D-Armory mit angelegter Ausrüstung, Drehung, Zoom und Posen. Das WoW-Addon funktioniert auch ohne GuildFlow Sync.
+
+Das vollständige [Changelog und die Downloads](https://github.com/derjp87/GuildFlow-Releases/releases) enthalten die jeweiligen Änderungen pro Version.
+
 <a id="english"></a>
 
 ## English – Installation & Discord setup
@@ -202,12 +216,12 @@ In Windows die App **GuildFlow Sync** deinstallieren. Das WoW-Addon kannst du in
 
 ### Guild crafting orders & possible upgrades (v0.18.11)
 
-In **Professions & Crafting**, find guild members who know a recipe, choose **Plan recipe**, and create a **guild crafting order** specifying quantity and who provides materials (requester, crafter, or arrange together). An eligible crafter offers to craft; the requester's character confirms one assigned crafter upon receiving the offer online. The crafter can mark the item crafted, and the requester confirms delivery.
+In **Professions & Crafting**, find guild members who know a recipe, choose **Create guild order**, and create a **guild crafting order** specifying quantity and who provides materials (requester, crafter, or arrange together). An eligible crafter offers to craft; the requester's character confirms one assigned crafter upon receiving the offer online. The crafter can mark the item crafted, and the requester confirms delivery.
 
 - **Minimap alerts:** A small crafting icon with an unread count shows newly available orders you can fulfill. The **Jobs you can craft** overview card and persistent Overview count show eligible open requests. No disruptive time-limited popup or sound.
 - **Linked crafting alts:** When your own characters are mutually verified and linked in GuildFlow, you can see and offer on jobs even while playing a different linked character; the recipe-owning alt is identified.
 - **Order details:** Where WoW supplies the recipe data, see required materials, quantities, supplier responsibility, assigned crafter and Blizzard item tooltips.
-- **Possible gear upgrades:** A second overview card lists selected guild-craftable armor and jewelry for **your currently logged-in character only**. Hover for item stats or crafter names and online status; inspect the material planner before submitting an order.
+- **Possible gear upgrades:** Personal suggestions for guild-craftable armor and jewelry are presented in the overview's relevant next steps for **your currently logged-in character only**. Hover for item stats or crafter names and online status; inspect the material planner before submitting an order.
 
 **Beta limitations:** Suggestions use conservative item-level/basic equipment comparisons, not full class/spec optimization. Weapons and enchants are excluded. Recipe details may be unavailable; alt/offline scenarios still need live verification. GuildFlow Sync is optional and does not guarantee instant offline delivery.
 
@@ -215,6 +229,16 @@ In **Professions & Crafting**, find guild members who know a recipe, choose **Pl
   <img src="assets/screens/main-en.png" alt="GuildFlow Sync Windows companion" width="49%">
   <img src="assets/screens/stats-overview-en.png" alt="Extended statistics" width="49%">
 </p>
+
+### What's new in GuildFlow 0.18.15
+
+**Redesigned in-game guild dashboard** brings together guild status, roles, next steps, upcoming raids and shared goals. **Members and gear** include profile details, talents, equipment slots and a rotatable 3D character where live inspection is supported (or a clearly identified approximation for distant members). **Raids and guild management** include calendars, signups, assignments, loot council, soft reserves and statistics.
+
+**Guild crafting orders and personal shopping:** Find recipes and their crafters, create individual orders specifying quantity and responsibility for reagents, and plan your own crafts. The combined private shopping list tracks materials for your own recipes and confirmed orders where you bring the materials. Each planned recipe can be marked as your own production or as not yet ordered, without automatically creating orders.
+
+**GuildFlow Sync for Windows is optional.** It adds offline guild synchronization, detailed statistics and a separate 3D Armory with equipped characters, zoom and pose controls. The addon works without the Windows app.
+
+See the [releases](https://github.com/derjp87/GuildFlow-Releases/releases) for version-specific changes and downloads.
 
 ### For players
 
