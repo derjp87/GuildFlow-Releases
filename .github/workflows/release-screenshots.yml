@@ -1,0 +1,70 @@
+name: Attach versioned screenshots to GitHub Release
+
+# Only on a published release. Does not touch CurseForge's image gallery.
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: gallery-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+jobs:
+  gallery:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Bundle the eight official screenshots and optional extras
+        id: gallery
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          VERSION="${RELEASE_TAG#v}"
+          [[ "$VERSION" =~ ^[0-9]+\.[0-9]+\.[0-9]+(-[A-Za-z0-9.]+)?$ ]] || {
+            echo "::error::Unexpected release tag $RELEASE_TAG"
+            exit 1
+          }
+          GALLERY="assets/screenshots/$VERSION"
+          if [[ ! -d "$GALLERY" ]]; then
+            echo "::notice::No versioned screenshot gallery for $RELEASE_TAG."
+            echo "found=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          python3 - "$GALLERY" "$VERSION" <<'PY'
+          import sys
+          import zipfile
+          from pathlib import Path
+          from struct import unpack
+          folder, version = Path(sys.argv[1]), sys.argv[2]
+          pictures = sorted(folder.glob("*.png"))
+          for index in range(1, 9):
+              if len([f for f in pictures if f.name.startswith(f"{index:02d}-")]) != 1:
+                  raise SystemExit(f"Missing/duplicate screenshot {index:02d} in {folder}")
+          for path in pictures:
+              data = path.read_bytes()
+              if data[:8] != b"\x89PNG\r\n\x1a\n" or data[12:16] != b"IHDR":
+                  raise SystemExit(f"Invalid PNG: {path}")
+              width, height = unpack(">II", data[16:24])
+              if width > 840:
+                  raise SystemExit(f"Screenshot too wide: {path} ({width} px)")
+          output = Path(f"GuildFlow-{version}-Screenshots.zip")
+          with zipfile.ZipFile(output, "w", compression=zipfile.ZIP_DEFLATED, compresslevel=6) as z:
+              for path in pictures:
+                  z.write(path, arcname=path.name)
+          print(f"{len(pictures)} verified images bundled in {output}")
+          PY
+          echo "found=true" >> "$GITHUB_OUTPUT"
+          echo "zip=GuildFlow-${VERSION}-Screenshots.zip" >> "$GITHUB_OUTPUT"
+      - name: Attach media pack to the matching public release
+        if: steps.gallery.outputs.found == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+          MEDIA_ZIP: ${{ steps.gallery.outputs.zip }}
+        run: |
+          gh release upload "$RELEASE_TAG" "$MEDIA_ZIP" --repo "$GITHUB_REPOSITORY" --clobber
