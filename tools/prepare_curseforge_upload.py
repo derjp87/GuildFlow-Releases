@@ -71,7 +71,7 @@ def main() -> None:
     # Do not silently publish a vague default text instead of a changelog.
     # English release notes in the public GitHub Release are the source of truth.
     if not notes or not re.search(
-        rf"(?m)^## What's new in GuildFlow v?{re.escape(version)}\\s*$", body
+        rf"(?m)^## What's new in GuildFlow v?{re.escape(version)}\s*$", body
     ):
         raise SystemExit(
             f"GitHub Release {tag} is missing the English What's new section; "
